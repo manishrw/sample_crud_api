@@ -9,7 +9,9 @@ public class UserContext : DbContext
 
     protected readonly IConfiguration Configuration;
 
-    public UserContext(IConfiguration configuration, DbContextOptions<UserContext> options, ILogger<UserContext> logger)
+    public UserContext(IConfiguration configuration,
+                       DbContextOptions<UserContext> options,
+                       ILogger<UserContext> logger)
         : base(options)
     {
         Configuration = configuration;
