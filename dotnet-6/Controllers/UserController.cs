@@ -22,10 +22,7 @@ public class UserController : ControllerBase
     public IEnumerable<User> Get()
     {
         _logger.LogInformation("Get users");
-        _logger.LogInformation(_userService.GetUsers().ToString());
-        // return Enumerable.Range(1, 5)
-        // .Select(index => new User(Convert.ToInt64(index), "email" + index + "@a.com", "User" + index))
-        // .ToArray();
+        _logger.LogInformation(string.Join(", ", _userService.GetUsers()));
         return _userService.GetUsers();
     }
 
@@ -34,5 +31,19 @@ public class UserController : ControllerBase
     {
         _logger.LogInformation($"Put user:{user}");
         return _userService.CreateOrUpdate(user);
+    }
+
+    [HttpDelete("{id}")]
+    public void Delete(long id)
+    {
+        _logger.LogInformation($"Delete user:{id}");
+        _userService.Delete(id);
+    }
+
+    [HttpGet("{id}")]
+    public User Get(long id)
+    {
+        _logger.LogInformation($"Get user:{id}");
+        return _userService.GetById(id);
     }
 }
