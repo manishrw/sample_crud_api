@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "Name")
     @NonNull private String name;
@@ -30,7 +30,7 @@ public class User {
         return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
