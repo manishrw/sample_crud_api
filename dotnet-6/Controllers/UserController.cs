@@ -20,29 +20,34 @@ public class UserController : ControllerBase
     [HttpGet]
     public IEnumerable<User> Get()
     {
-        _logger.LogInformation("Get users");
-        _logger.LogInformation(string.Join(", ", _userService.GetUsers()));
+        var users = _userService.GetUsers();
+
+        _logger.LogInformation("Get users {@Users}", users);
+        
         return _userService.GetUsers();
     }
 
     [HttpPut]
     public User Put(User user)
     {
-        _logger.LogInformation($"Put user:{user}");
+        _logger.LogInformation("Put user: {@User}", user);
+
         return _userService.CreateOrUpdate(user);
     }
 
     [HttpDelete("{id}")]
     public void Delete(long id)
     {
-        _logger.LogInformation($"Delete user:{id}");
+        _logger.LogInformation("Delete user: {UserId}", id);
+
         _userService.Delete(id);
     }
 
     [HttpGet("{id}")]
     public User Get(long id)
     {
-        _logger.LogInformation($"Get user:{id}");
+        _logger.LogInformation("Get user: {UserId}", id);
+
         return _userService.GetById(id);
     }
 }

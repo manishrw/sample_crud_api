@@ -30,7 +30,7 @@ public class UserService : IUserService
 
     public User GetById(long id)
     {
-        _logger.LogInformation("Get user by id:" + id);
+        _logger.LogInformation("Get user by id: {UserId}", id);
         return GetUser(id);
     }
 
@@ -42,7 +42,8 @@ public class UserService : IUserService
 
     public User CreateOrUpdate(User user)
     {
-        _logger.LogInformation("Create or update user:" + user.Id);
+        _logger.LogInformation("Create or update user: {UserId}", user.Id);
+
         var existingUser = _context.Users.Find(user.Id);
         if (existingUser == null) {
             _context.Users.Add(user);
@@ -56,7 +57,8 @@ public class UserService : IUserService
 
     public void Delete(long id)
     {
-        _logger.LogInformation("Delete user:" + id);
+        _logger.LogInformation("Delete user: {UserId}", id);
+
         var user = GetUser(id);
         _context.Users.Remove(user);
         _context.SaveChanges();
