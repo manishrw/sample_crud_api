@@ -18,36 +18,54 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<User> Get()
+    public ActionResult<IEnumerable<User>> Get()
     {
         var users = _userService.GetUsers();
 
         _logger.LogInformation("Get users {@Users}", users);
-        
-        return _userService.GetUsers();
+
+        return Ok(users);
     }
 
     [HttpPut]
-    public User Put(User user)
+    public ActionResult<User> Put(User user)
     {
         _logger.LogInformation("Put user: {@User}", user);
 
-        return _userService.CreateOrUpdate(user);
+        var updated = _userService.CreateOrUpdate(user);
+
+        return Ok(updated);
     }
 
     [HttpDelete("{id}")]
-    public void Delete(long id)
+    public IActionResult Delete(long id)
     {
         _logger.LogInformation("Delete user: {UserId}", id);
 
-        _userService.Delete(id);
+        try
+        {
+            _userService.Delete(id);
+            return NoContent();
+        }
+        catch (KeyNotFoundException keyNotFoundException)
+        {
+            return NotFound(keyNotFoundException.Message);
+        }
     }
 
     [HttpGet("{id}")]
-    public User Get(long id)
+    public ActionResult<User> Get(long id)
     {
         _logger.LogInformation("Get user: {UserId}", id);
 
-        return _userService.GetById(id);
+        try
+        {
+            var user = _userService.GetById(id);
+            return Ok(user);
+        }
+        catch (KeyNotFoundException keyNotFoundException)
+        {
+            return NotFound(keyNotFoundException.Message);
+        }
     }
 }
