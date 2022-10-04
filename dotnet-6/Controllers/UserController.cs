@@ -8,7 +8,6 @@ namespace CrudApp.Controllers;
 [Route("api/users")]
 public class UserController : ControllerBase
 {
-
     private readonly ILogger<UserController> _logger;
     private readonly IUserService _userService;
 
