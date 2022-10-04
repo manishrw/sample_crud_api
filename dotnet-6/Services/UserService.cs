@@ -17,7 +17,7 @@ public class UserService : IUserService
     public IEnumerable<User> GetUsers()
     {
         _logger.LogInformation("Get all users");
-        return _context.Users;
+        return _context.Users.ToList();
     }
 
     public User GetById(long id)
@@ -26,10 +26,10 @@ public class UserService : IUserService
         return GetUser(id);
     }
 
-    private User GetUser(long id) {
+    private User GetUser(long id)
+    {
         var user = _context.Users.Find(id);
-        if (user == null) throw new KeyNotFoundException("User not found.");
-        return user;
+        return user ?? throw new KeyNotFoundException("User not found.");
     }
 
     public User CreateOrUpdate(User user)
@@ -37,12 +37,17 @@ public class UserService : IUserService
         _logger.LogInformation("Create or update user: {UserId}", user.Id);
 
         var existingUser = _context.Users.Find(user.Id);
-        if (existingUser == null) {
+
+        if (existingUser is null)
+        {
             _context.Users.Add(user);
-        } else {
+        }
+        else
+        {
             existingUser.Email = user.Email;
             existingUser.Name = user.Name;
         }
+
         _context.SaveChanges();
         return user;
     }
@@ -52,6 +57,7 @@ public class UserService : IUserService
         _logger.LogInformation("Delete user: {UserId}", id);
 
         var user = GetUser(id);
+
         _context.Users.Remove(user);
         _context.SaveChanges();
     }

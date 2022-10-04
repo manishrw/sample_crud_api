@@ -7,13 +7,11 @@ public class UserContext : DbContext
 {
     protected readonly IConfiguration Configuration;
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; } = null!;
 
     public UserContext(IConfiguration configuration, DbContextOptions<UserContext> options)
         : base(options)
-    {
-        Configuration = configuration;
-    }
+        => Configuration = configuration;
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
